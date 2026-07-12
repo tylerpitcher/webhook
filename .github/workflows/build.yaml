@@ -1,0 +1,22 @@
+name: Docker Build and Publish
+
+on:
+    release:
+        types:
+            - created
+
+jobs:
+    update-notes:
+        uses: tylerpitcher/ci-cd/.github/workflows/noteable.yaml@main
+        secrets:
+            GIT_PAT: ${{ secrets.GIT_PAT }}
+
+    webook:
+        uses: tylerpitcher/ci-cd/.github/workflows/build.yaml@main
+        with:
+            dockerfile_path: ./Dockerfile
+            image_name: webook
+            image_version: ${{ github.ref_name }}
+        secrets:
+            DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: webhook
+
+server:
+  error:
+    include-message: always
+
+signature:
+  algorithm: HmacSHA256
+  secret: ${webhook.signature.secret}
