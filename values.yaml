@@ -3,7 +3,7 @@ image:
   tag: 0.1.0
 
 deployment:
-  port: 80
+  port: 8080
 
 ingress:
   enabled: true
