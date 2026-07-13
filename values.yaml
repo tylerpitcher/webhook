@@ -1,5 +1,5 @@
 image:
-  repository: tylerpitcher/webhook
+  repository: tylerpitcher/webook
   tag: 0.1.0
 
 deployment:
