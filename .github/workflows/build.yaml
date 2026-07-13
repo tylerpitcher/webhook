@@ -11,11 +11,11 @@ jobs:
         secrets:
             GIT_PAT: ${{ secrets.GIT_PAT }}
 
-    webook:
+    webhook:
         uses: tylerpitcher/ci-cd/.github/workflows/build.yaml@main
         with:
             dockerfile_path: ./Dockerfile
-            image_name: webook
+            image_name: webhook
             image_version: ${{ github.ref_name }}
         secrets:
             DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
