@@ -8,3 +8,10 @@ deployment:
 ingress:
   enabled: true
   path: /webhook
+
+env:
+  - name: SERVER_SERVLET_CONTEXT_PATH
+    value: /webhook
+
+  - name: WEBHOOK_SIGNATURE_SECRET
+    value: test
