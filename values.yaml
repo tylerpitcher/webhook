@@ -1,0 +1,10 @@
+image:
+  repository: tylerpitcher/webhook
+  tag: 0.1.0
+
+deployment:
+  port: 80
+
+ingress:
+  enabled: true
+  path: /webhook
