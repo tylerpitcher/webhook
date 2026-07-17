@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
-import java.nio.charset.StandardCharsets;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -59,28 +57,26 @@ public class GitHubWebhookControllerV1 {
                             schema = @Schema(
                                     type = "object",
                                     example = """
-                    {
-                      "ref": "refs/heads/main",
-                      "repository": {
-                        "full_name": "octocat/Hello-World"
-                      },
-                      "pusher": {
-                        "name": "octocat"
-                      }
-                    }
-                    """
-                            )
-                    )
-            )
+                                    {
+                                      "ref": "refs/heads/main",
+                                      "repository": {
+                                        "full_name": "octocat/Hello-World"
+                                      },
+                                      "pusher": {
+                                        "name": "octocat"
+                                      }
+                                    }
+                                    """)))
             @RequestBody byte[] body) {
-        byte[] bytes = signature.getBytes(StandardCharsets.UTF_8);
+        log.info("Signature: {}", signature);
+        log.info("Event: {}", event);
+        log.info("Delivery Id: {}", deliveryId);
+
+        byte[] bytes = GitHubSignatureParser.parse(signature);
         if (!signatureVerifier.verify(bytes, body)) {
             throw new InvalidWebhookSignatureException("Signature does not match expected");
         }
 
-        log.info("Signature: {}", signature);
-        log.info("Event: {}", event);
-        log.info("Delivery Id: {}", deliveryId);
         JsonNode json = OBJECT_MAPPER.readTree(body);
         log.info("Body: {}", json);
 
