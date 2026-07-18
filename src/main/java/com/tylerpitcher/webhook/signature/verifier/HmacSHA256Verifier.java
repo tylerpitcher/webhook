@@ -15,7 +15,7 @@ final class HmacSHA256Verifier implements SignatureVerifier {
     }
 
     @Override
-    public boolean verify(byte[] signature, byte[] payload) {
+    public boolean isValid(byte[] signature, byte[] payload) {
         Objects.requireNonNull(signature, "signature");
         Objects.requireNonNull(payload, "payload");
 
