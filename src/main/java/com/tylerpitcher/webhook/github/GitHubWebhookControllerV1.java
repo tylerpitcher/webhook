@@ -2,6 +2,7 @@ package com.tylerpitcher.webhook.github;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,8 @@ public class GitHubWebhookControllerV1 {
             @RequestHeader("X-Hub-Signature-256") String signature,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema =@Schema(type = "object", example = "{}")))
             @RequestBody byte[] body) {
         gitHubService.webhook(event, deliveryId, signature, body);
         return ResponseEntity.noContent().build();
