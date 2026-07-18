@@ -3,6 +3,7 @@ package com.tylerpitcher.webhook.github;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +22,17 @@ public class GitHubWebhookControllerV1 {
 
     @Operation(
             summary = "Receive a secured GitHub webhook",
-            description = "Receives webhook events from GitHub. After the signature is validated, the payload can be published."
-    )
+            description = "Receives webhook events from GitHub. After the signature is validated, the payload can be published.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "Webhook accepted and processed successfully."),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "The supplied GitHub signature is invalid."),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Fatal error when processing webhook request.")})
     @PostMapping
     public ResponseEntity<Void> webhookSecure(
             @RequestHeader("X-GitHub-Event") String event,
@@ -31,7 +41,7 @@ public class GitHubWebhookControllerV1 {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema =@Schema(type = "object", example = "{}")))
+                    schema = @Schema(type = "object", example = "{}")))
             @RequestBody byte[] body) {
         gitHubService.webhook(event, deliveryId, signature, body);
         return ResponseEntity.noContent().build();
