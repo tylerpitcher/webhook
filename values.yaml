@@ -1,6 +1,6 @@
 image:
   repository: tylerpitcher/webhook
-  tag: 0.2.0
+  tag: 0.3.0
 
 deployment:
   port: 8080
